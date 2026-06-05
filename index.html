@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Pizzeria Tov premium menüsü - gerçek Napoli ruhu, odun ateşi lezzeti."
+    />
+    <meta name="theme-color" content="#172018" />
+    <title>Pizzeria Tov | Menü</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#menu" data-i18n="nav.skip">Menüye geç</a>
+
+    <header class="topbar" aria-label="Pizzeria Tov">
+      <a class="brand-mark" href="#menu" aria-label="Pizzeria Tov">
+        <span class="brand-seal" aria-hidden="true">PT</span>
+        <span>Pizzeria Tov</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Ana navigasyon">
+        <a href="#menu" data-i18n="nav.menu">Menü</a>
+        <a href="#visit" data-i18n="nav.visit">İletişim</a>
+      </nav>
+
+      <div class="language-switch" aria-label="Dil seçimi">
+        <button class="language-button is-active" type="button" data-language="tr" aria-pressed="true">
+          TR
+        </button>
+        <button class="language-button" type="button" data-language="en" aria-pressed="false">
+          EN
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="menu-section section-pad first-section" id="menu">
+        <div class="section-intro menu-heading">
+          <p class="eyebrow" data-i18n="menu.eyebrow">Menu della casa</p>
+          <h1 class="menu-title" data-i18n="menu.title">Pizzeria Tov Menüsü</h1>
+        </div>
+
+        <div class="filter-shell">
+          <div class="filter-bar" id="categoryFilters" role="tablist" aria-label="Menü kategorileri"></div>
+        </div>
+
+        <div class="menu-grid" id="menuGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="visit section-pad" id="visit">
+        <div class="section-intro">
+          <h2 data-i18n="visit.title">İletişim &amp; Konum</h2>
+        </div>
+
+        <div class="contact-details" aria-label="Pizzeria Tov iletişim bilgileri">
+          <a class="contact-detail" id="phoneLink" href="#">
+            <span data-i18n="visit.phoneLabel">Telefon</span>
+            <strong id="phoneText">0546860042</strong>
+          </a>
+          <div class="contact-detail">
+            <span data-i18n="visit.hoursLabel">Çalışma saatleri</span>
+            <strong class="hours-text" id="hoursText">Pazartesi: Kapalı
+Salı: 12.00 - 20.00
+Çarşamba: 12.00 - 20.00
+Perşembe: 12.00 - 20.00
+Cuma: 12.00 - 20.00
+Cumartesi: 14.00 - 20.00
+Pazar: 14.00 - 20.00</strong>
+          </div>
+        </div>
+
+        <div class="contact-actions">
+          <a class="button button-primary" id="locationWhatsappLink" href="#" target="_blank" rel="noreferrer" data-i18n="visit.whatsapp">
+            WhatsApp
+          </a>
+          <a class="button button-secondary" id="mapLink" href="#" target="_blank" rel="noreferrer" data-i18n="visit.maps">
+            Konum
+          </a>
+          <a class="button button-tertiary" id="instagramLink" href="#" target="_blank" rel="noreferrer">
+            Instagram
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Pizzeria Tov</p>
+      <span data-i18n="footer.copy">Gerçek Napoli Pizzası.</span>
+    </footer>
+
+    <nav class="mobile-bottom-nav" aria-label="Mobil hızlı menü">
+      <a href="#menu" data-i18n="mobileNav.menu">Menü</a>
+      <a href="#visit" data-i18n="mobileNav.visit">İletişim</a>
+    </nav>
+  </body>
+</html>
