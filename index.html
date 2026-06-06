@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Pizzeria Tov premium menüsü - gerçek Napoli ruhu, odun ateşi lezzeti."
+      content="Pizzeria Tov premium QR menüsü - gerçek Napoli ruhu, odun ateşi lezzeti."
     />
     <meta name="theme-color" content="#172018" />
     <title>Pizzeria Tov | Menü</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="config.js"></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -58,17 +60,11 @@
         <div class="contact-details" aria-label="Pizzeria Tov iletişim bilgileri">
           <a class="contact-detail" id="phoneLink" href="#">
             <span data-i18n="visit.phoneLabel">Telefon</span>
-            <strong id="phoneText">0546860042</strong>
+            <strong id="phoneText">0546 860 04 2</strong>
           </a>
           <div class="contact-detail">
             <span data-i18n="visit.hoursLabel">Çalışma saatleri</span>
-            <strong class="hours-text" id="hoursText">Pazartesi: Kapalı
-Salı: 12.00 - 20.00
-Çarşamba: 12.00 - 20.00
-Perşembe: 12.00 - 20.00
-Cuma: 12.00 - 20.00
-Cumartesi: 14.00 - 20.00
-Pazar: 14.00 - 20.00</strong>
+            <strong class="hours-text" id="hoursText">Pazartesi: Kapalı<br />Salı - Cuma: 12.00 - 20.00<br />Cumartesi - Pazar: 14.00 - 20.00</strong>
           </div>
         </div>
 
