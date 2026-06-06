@@ -14,7 +14,7 @@ create table if not exists public.menu_products (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
   category text not null check (category in ('napoli', 'drinks')),
-  menu_group text not null check (menu_group in ('chef', 'signature', 'drinks')),
+  menu_group text not null check (menu_group in ('Classic', 'signature', 'drinks')),
   name_tr text not null,
   name_en text,
   ingredients_tr text[] not null default '{}',
@@ -175,7 +175,7 @@ insert into public.menu_products (
   (
     'margherita',
     'napoli',
-    'chef',
+    'Classic',
     'Margherita',
     'Margherita',
     array['Eritilmiş peynir', 'San Marzano domates', 'Fesleğen', 'Parmesan', 'Zeytinyağı'],
@@ -190,7 +190,7 @@ insert into public.menu_products (
   (
     'marinara',
     'napoli',
-    'chef',
+    'Classic',
     'Marinara',
     'Marinara',
     array['San Marzano domates sos', 'Fesleğen', 'Siyah zeytin', 'Acı zeytin', 'Zeytinyağı'],
