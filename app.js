@@ -380,7 +380,7 @@ const uiText = {
       maps: "Location",
     },
     mobileNav: { menu: "Menu", visit: "Contact" },
-    footer: { copy: "The soul of Naples, fired by wood." },
+    footer: { copy: "The soul of Naples." },
   },
 };
 
