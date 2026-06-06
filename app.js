@@ -18,12 +18,12 @@ const businessConfig = {
   instagramUrl: "https://www.instagram.com/pizzeria_tov/",
   hours: {
     tr: [
+       "HAMURLARIMIZ SINIRLI SAYIDA OLUP ERKEN TÜKENEBİLECEĞİ İÇİN GELMEDEN ÖNCE HAMUR REZERVASYONU YAPMANIZ ÖNERİLİR",
       "Pazartesi: Kapalı",
       "Salı - Cuma: 12.00 - 20.00",
       "Cumartesi - Pazar: 14.00 - 20.00",
     ],
     en: [
-      "HAMURLARIMIZ SINIRLI SAYIDA OLDUĞU İÇİN GELMEDEN ÖNCE HAMUR REZERVASYONU YAPMANIZ ÖNERİLİR",
       "Monday: Closed",
       "Tuesday - Friday: 12.00 - 20.00",
       "Saturday - Sunday: 14.00 - 20.00",
