@@ -7,11 +7,7 @@ const publicMenuUrl = "https://pizzeria-tov.vercel.app";
 // Restaurant contact details: change WhatsApp, phone, map, Instagram, and hours here.
 const businessConfig = {
   whatsappNumber: "05468600423",
-  phoneDisplay: "05468600423", 
-   reservationNote: {
-    tr: "HAMURLARIMIZ SINIRLI SAYIDA OLUP ERKEN TÜKENEBİLECEĞİ İÇİN GELMEDEN ÖNCE HAMUR REZERVASYONU YAPMANIZ ÖNERİLİR",
-    en: "OUR DOUGH IS LIMITED AND MAY SELL OUT EARLY. WE RECOMMEND RESERVING DOUGH BEFORE COMING.",
-  },
+  phoneDisplay: "05468600423",
   phoneHref: "tel:05468600423",
   whatsappMessage: {
     tr: "Merhaba, Pizzeria Tov için sipariş vermek istiyorum.",
@@ -22,6 +18,7 @@ const businessConfig = {
   instagramUrl: "https://www.instagram.com/pizzeria_tov/",
   hours: {
     tr: [
+       "HAMURLARIMIZ SINIRLI SAYIDA OLUP ERKEN TÜKENEBİLECEĞİ İÇİN GELMEDEN ÖNCE HAMUR REZERVASYONU YAPMANIZ ÖNERİLİR",
       "Pazartesi: Kapalı",
       "Salı - Cuma: 12.00 - 20.00",
       "Cumartesi - Pazar: 14.00 - 20.00",
@@ -39,8 +36,8 @@ const storageBucket = supabaseConfig.storageBucket || "product-images";
 const hasSupabaseCredentials =
   Boolean(supabaseConfig.supabaseUrl) &&
   Boolean(supabaseConfig.supabaseAnonKey) &&
-  !String(supabaseConfig.supabaseUrl).includes("https://fqmudoouqqarqwwvygdw.supabase.co") &&
-  !String(supabaseConfig.supabaseAnonKey).includes("sb_publishable_WmVtgETXlAMFHnIuiJg9SQ_HbqjucpO");
+  !String(supabaseConfig.supabaseUrl).includes("YOUR_PROJECT_REF") &&
+  !String(supabaseConfig.supabaseAnonKey).includes("YOUR_SUPABASE_ANON_KEY");
 const supabaseClient =
   hasSupabaseCredentials && window.supabase
     ? window.supabase.createClient(supabaseConfig.supabaseUrl, supabaseConfig.supabaseAnonKey)
@@ -938,10 +935,6 @@ function updateBusinessLinks() {
   });
   const phoneText = document.getElementById("phoneText");
   if (phoneText) phoneText.textContent = businessConfig.phoneDisplay;
-  const reservationNoteText = document.getElementById("reservationNoteText");
-if (reservationNoteText) {
-  reservationNoteText.textContent = localize(businessConfig.reservationNote);
-}
   const hoursText = document.getElementById("hoursText");
   const hours = localize(businessConfig.hours);
   if (hoursText && Array.isArray(hours)) hoursText.innerHTML = hours.map(escapeHtml).join("<br>");
