@@ -7,8 +7,8 @@ const publicMenuUrl = "https://pizzeria-tov.vercel.app";
 // Restaurant contact details: change WhatsApp, phone, map, Instagram, and hours here.
 const businessConfig = {
   whatsappNumber: "05468600423",
-  phoneDisplay: "05468600423 HAMURLARIMIZ SINIRLI SAYIDA OLUP ERKEN TÜKENEBİLECEĞİ İÇİN GELMEDEN ÖNCE HAMUR REZERVASYONU YAPMANIZ ÖNERİLİR",
-  phoneHref: "tel:05468600423 HAMURLARIMIZ SINIRLI SAYIDA OLUP ERKEN TÜKENEBİLECEĞİ İÇİN GELMEDEN ÖNCE HAMUR REZERVASYONU YAPMANIZ ÖNERİLİR",
+  phoneDisplay: "05468600423 ",
+  phoneHref: "tel:05468600423 ",
   whatsappMessage: {
     tr: "Merhaba, Pizzeria Tov için sipariş vermek istiyorum.",
     en: "Hello, I would like to order from Pizzeria Tov.",
