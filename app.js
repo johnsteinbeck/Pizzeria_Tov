@@ -19,8 +19,12 @@ const businessConfig = {
   hours: {
     tr: [
       "Pazartesi: Kapalı",
-      "Salı - Cuma: 12.00 - 20.00",
-      "Cumartesi - Pazar: 14.00 - 20.00",
+      "Salı Cuma: 12.00 - 20.00",
+      "Çarşamba: 12.00 - 20.00",
+      "Perşembe: 12.00 - 20.00",
+      "Cuma: 12.00 - 20.00",
+      "Cumartesi: 14.00 - 20.00",
+      "Pazar: 14.00 - 20.00",
     ],
     en: [
       "Monday: Closed",
