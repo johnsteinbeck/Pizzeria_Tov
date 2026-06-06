@@ -6,9 +6,9 @@ const publicMenuUrl = "https://pizzeria-tov.vercel.app";
 
 // Restaurant contact details: change WhatsApp, phone, map, Instagram, and hours here.
 const businessConfig = {
-  whatsappNumber: "0546860042",
-  phoneDisplay: "0546860042",
-  phoneHref: "tel:0546860042",
+  whatsappNumber: "05468600423",
+  phoneDisplay: "05468600423",
+  phoneHref: "tel:05468600423",
   whatsappMessage: {
     tr: "Merhaba, Pizzeria Tov için sipariş vermek istiyorum.",
     en: "Hello, I would like to order from Pizzeria Tov.",
@@ -18,13 +18,12 @@ const businessConfig = {
   instagramUrl: "https://www.instagram.com/pizzeria_tov/",
   hours: {
     tr: [
-      "Neapolitan Style Pizza",
       "Pazartesi: Kapalı",
       "Salı - Cuma: 12.00 - 20.00",
       "Cumartesi - Pazar: 14.00 - 20.00",
     ],
     en: [
-      "Neapolitan Style Pizza",
+      "HAMURLARIMIZ SINIRLI SAYIDA OLDUĞU İÇİN GELMEDEN ÖNCE HAMUR REZERVASYONU YAPMANIZ ÖNERİLİR",
       "Monday: Closed",
       "Tuesday - Friday: 12.00 - 20.00",
       "Saturday - Sunday: 14.00 - 20.00",
