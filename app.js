@@ -938,6 +938,10 @@ function updateBusinessLinks() {
   });
   const phoneText = document.getElementById("phoneText");
   if (phoneText) phoneText.textContent = businessConfig.phoneDisplay;
+  const reservationNoteText = document.getElementById("reservationNoteText");
+if (reservationNoteText) {
+  reservationNoteText.textContent = localize(businessConfig.reservationNote);
+}
   const hoursText = document.getElementById("hoursText");
   const hours = localize(businessConfig.hours);
   if (hoursText && Array.isArray(hours)) hoursText.innerHTML = hours.map(escapeHtml).join("<br>");
