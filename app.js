@@ -212,7 +212,7 @@ const uiText = {
     nav: { skip: "Menüye geç", menu: "Menü", admin: "Yönetim", visit: "İletişim" },
     menu: {
       eyebrow: "Menu della casa",
-      title: "Pizzeria Tov Menüsü",
+      title: "Pizzeria Tov Menü",
       empty: "Bu kategoride ürün yok.",
       error: "Menü şu anda yüklenemedi. Lütfen birkaç dakika sonra tekrar deneyin.",
     },
@@ -220,7 +220,7 @@ const uiText = {
       skip: "Yönetim paneline geç",
       eyebrow: "Area riservata",
       title: "Yönetici paneli",
-      copy: "Pizzeria Tov menüsü. Ürün ekleyin, fiyatları güncelleyin, görsel yükleyin, gizleyin ya da silin.",
+      copy: "Pizzeria Tov Menü. Ürün ekleyin, fiyatları güncelleyin, görsel yükleyin, gizleyin ya da silin.",
       authTitle: "Yönetici girişi kaldırıldı",
       authCopy: "Admin linkini bilen kişi paneli doğrudan açabilir.",
       emailLabel: "Yönetici e-postası",
