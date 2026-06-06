@@ -35,8 +35,8 @@ const storageBucket = supabaseConfig.storageBucket || "product-images";
 const hasSupabaseCredentials =
   Boolean(supabaseConfig.supabaseUrl) &&
   Boolean(supabaseConfig.supabaseAnonKey) &&
-  !String(supabaseConfig.supabaseUrl).includes("YOUR_PROJECT_REF") &&
-  !String(supabaseConfig.supabaseAnonKey).includes("YOUR_SUPABASE_ANON_KEY");
+  !String(supabaseConfig.supabaseUrl).includes("https://fqmudoouqqarqwwvygdw.supabase.co") &&
+  !String(supabaseConfig.supabaseAnonKey).includes("sb_publishable_WmVtgETXlAMFHnIuiJg9SQ_HbqjucpO");
 const supabaseClient =
   hasSupabaseCredentials && window.supabase
     ? window.supabase.createClient(supabaseConfig.supabaseUrl, supabaseConfig.supabaseAnonKey)
