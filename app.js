@@ -8,7 +8,7 @@ const publicMenuUrl = "https://pizzeria-tov.vercel.app";
 const businessConfig = {
   whatsappNumber: "05468600423",
   phoneDisplay: "05468600423 HAMURLARIMIZ SINIRLI SAYIDA OLUP ERKEN TÜKENEBİLECEĞİ İÇİN GELMEDEN ÖNCE HAMUR REZERVASYONU YAPMANIZ ÖNERİLİR",
-  phoneHref: "tel:05468600423",
+  phoneHref: "tel:05468600423 HAMURLARIMIZ SINIRLI SAYIDA OLUP ERKEN TÜKENEBİLECEĞİ İÇİN GELMEDEN ÖNCE HAMUR REZERVASYONU YAPMANIZ ÖNERİLİR",
   whatsappMessage: {
     tr: "Merhaba, Pizzeria Tov için sipariş vermek istiyorum.",
     en: "Hello, I would like to order from Pizzeria Tov.",
@@ -18,7 +18,6 @@ const businessConfig = {
   instagramUrl: "https://www.instagram.com/pizzeria_tov/",
   hours: {
     tr: [
-       "HAMURLARIMIZ SINIRLI SAYIDA OLUP ERKEN TÜKENEBİLECEĞİ İÇİN GELMEDEN ÖNCE HAMUR REZERVASYONU YAPMANIZ ÖNERİLİR",
       "Pazartesi: Kapalı",
       "Salı - Cuma: 12.00 - 20.00",
       "Cumartesi - Pazar: 14.00 - 20.00",
