@@ -7,7 +7,7 @@ const publicMenuUrl = "https://pizzeria-tov.vercel.app";
 // Restaurant contact details: change WhatsApp, phone, map, Instagram, and hours here.
 const businessConfig = {
   whatsappNumber: "0546860042",
-  phoneDisplay: "0546 860 04 2",
+  phoneDisplay: "0546860042",
   phoneHref: "tel:0546860042",
   whatsappMessage: {
     tr: "Merhaba, Pizzeria Tov için sipariş vermek istiyorum.",
