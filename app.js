@@ -221,11 +221,11 @@ const uiText = {
       eyebrow: "Area riservata",
       title: "Yönetici paneli",
       copy: "Pizzeria Tov menüsü Supabase veritabanından yönetilir. Ürün ekleyin, fiyatları güncelleyin, görsel yükleyin, gizleyin ya da silin.",
-      authTitle: "Yönetici girişi",
-      authCopy: "Yetkili e-postanızı yazın. Supabase size güvenli giriş bağlantısı gönderir.",
+      authTitle: "Yönetici girişi kaldırıldı",
+      authCopy: "Admin linkini bilen kişi paneli doğrudan açabilir.",
       emailLabel: "Yönetici e-postası",
       emailPlaceholder: "owner@example.com",
-      sendLinkButton: "Giriş Linki Gönder",
+      sendLinkButton: "Panele Gir",
       signOutButton: "Çıkış Yap",
       addKicker: "Nuova pizza",
       addTitle: "Yeni ürün ekle",
@@ -265,12 +265,12 @@ const uiText = {
       qrCopy: "Bu QR kod doğrudan Vercel menü adresine gider.",
       publicUrlLabel: "Menü URL",
       backToMenu: "Menüye Dön",
-      loginNeeded: "Yönetim için yetkili e-posta ile giriş yapın.",
-      linkSent: "Giriş bağlantısı gönderildi. E-postanızı kontrol edin.",
-      checking: "Yetki kontrol ediliyor...",
+      loginNeeded: "Yönetim paneli doğrudan açılır.",
+      linkSent: "Yönetim paneli açıldı.",
+      checking: "Yönetim paneli hazırlanıyor...",
       notConfigured: "Supabase bilgileri config.js içine eklenmeden yönetim paneli aktif olmaz.",
-      notAuthorized: "Bu e-posta yönetici listesinde yok.",
-      ready: "Yönetim paneli hazır.",
+      notAuthorized: "Bu panelde giriş kontrolü kaldırıldı.",
+      ready: "Yönetim paneli hazır. Giriş kontrolü kaldırıldı.",
       added: "Yeni ürün Supabase menüsüne eklendi.",
       priceUpdated: "Fiyat güncellendi.",
       photoUpdated: "Fotoğraf güncellendi.",
@@ -279,7 +279,7 @@ const uiText = {
       deleted: "Ürün silindi.",
       missingPhoto: "Fotoğraf dosyası seçin.",
       confirmDelete: "Bu ürünü kalıcı olarak silmek istiyor musunuz?",
-      saveError: "İşlem tamamlanamadı. Supabase ayarlarını ve yetkinizi kontrol edin.",
+      saveError: "İşlem tamamlanamadı. Supabase ayarlarını ve RLS izinlerini kontrol edin.",
       loadError: "Ürünler Supabase'den yüklenemedi.",
       noProducts: "Henüz ürün yok.",
       hiddenSuffix: "Gizli",
@@ -307,11 +307,11 @@ const uiText = {
       eyebrow: "Area riservata",
       title: "Admin panel",
       copy: "Pizzeria Tov's menu is managed from the Supabase database. Add products, update prices, upload images, hide, show, or delete items.",
-      authTitle: "Admin sign in",
-      authCopy: "Enter the authorized email. Supabase will send a secure login link.",
+      authTitle: "Admin sign-in removed",
+      authCopy: "Anyone with the admin link can open this panel directly.",
       emailLabel: "Admin email",
       emailPlaceholder: "owner@example.com",
-      sendLinkButton: "Send Login Link",
+      sendLinkButton: "Open Panel",
       signOutButton: "Sign Out",
       addKicker: "Nuova pizza",
       addTitle: "Add new product",
@@ -351,12 +351,12 @@ const uiText = {
       qrCopy: "This QR code opens the Vercel public menu URL.",
       publicUrlLabel: "Menu URL",
       backToMenu: "Back to Menu",
-      loginNeeded: "Sign in with the authorized email to manage the menu.",
-      linkSent: "Login link sent. Check your email.",
-      checking: "Checking admin permission...",
+      loginNeeded: "The admin panel opens directly.",
+      linkSent: "Admin panel opened.",
+      checking: "Preparing admin panel...",
       notConfigured: "Add Supabase credentials to config.js before using the admin panel.",
-      notAuthorized: "This email is not in the admin list.",
-      ready: "Admin panel is ready.",
+      notAuthorized: "Sign-in checks are removed for this panel.",
+      ready: "Admin panel is ready. Sign-in checks are removed.",
       added: "New product added to the Supabase menu.",
       priceUpdated: "Price updated.",
       photoUpdated: "Photo updated.",
@@ -365,7 +365,7 @@ const uiText = {
       deleted: "Product deleted.",
       missingPhoto: "Choose a photo file.",
       confirmDelete: "Do you want to permanently delete this product?",
-      saveError: "The action could not be completed. Check Supabase settings and permissions.",
+      saveError: "The action could not be completed. Check Supabase settings and RLS permissions.",
       loadError: "Products could not be loaded from Supabase.",
       noProducts: "No products yet.",
       hiddenSuffix: "Hidden",
@@ -441,48 +441,29 @@ async function initAdminAuth() {
   const authForm = document.getElementById("adminAuthForm");
   const signOutButton = document.getElementById("adminSignOutButton");
 
+  if (authForm) authForm.hidden = true;
+  if (signOutButton) signOutButton.hidden = true;
+
   if (!supabaseClient) {
-    showAdminStatus("notConfigured");
+    state.isAdminReady = false;
     setAdminWorkspace(false);
+    showAdminStatus("notConfigured");
     return;
   }
 
-  authForm?.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const email = document.getElementById("adminEmail")?.value.trim();
-    if (!email) return;
-    try {
-      setAdminBusy(true);
-      const { error } = await supabaseClient.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: getAdminRedirectUrl(),
-          shouldCreateUser: true,
-        },
-      });
-      if (error) throw error;
-      showAdminStatus("linkSent");
-    } catch (error) {
-      console.error(error);
-      showAdminStatus("saveError");
-    } finally {
-      setAdminBusy(false);
-    }
-  });
-
-  signOutButton?.addEventListener("click", async () => {
-    await supabaseClient.auth.signOut();
+  try {
+    state.isAdminReady = true;
+    setAdminWorkspace(true);
+    menuItems = await loadMenuItems({ includeHidden: true });
+    renderAdminSelectors();
+    syncNewProductControls();
+    showAdminStatus("ready");
+  } catch (error) {
+    console.error(error);
     state.isAdminReady = false;
-    menuItems = [];
     setAdminWorkspace(false);
-    showAdminStatus("loginNeeded");
-  });
-
-  const { data } = await supabaseClient.auth.getSession();
-  await handleAdminSession(data.session);
-  supabaseClient.auth.onAuthStateChange((_event, session) => {
-    handleAdminSession(session);
-  });
+    showAdminStatus("saveError");
+  }
 }
 
 async function handleAdminSession(session) {

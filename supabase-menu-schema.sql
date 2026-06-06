@@ -53,6 +53,11 @@ on conflict (email) do nothing;
 alter table public.app_admins enable row level security;
 alter table public.menu_products enable row level security;
 
+-- No-login admin mode:
+-- The static admin.html page does not use Supabase Auth.
+-- Because browser requests use the public anon key, admin writes must be allowed to anon.
+-- This is convenient but not secure: anyone who knows the admin URL can manage the menu.
+
 create or replace function public.is_menu_admin()
 returns boolean
 language sql
@@ -60,68 +65,52 @@ security definer
 set search_path = public
 stable
 as $$
-  select exists (
-    select 1
-    from public.app_admins
-    where user_id = auth.uid()
-      or lower(email) = lower(coalesce(auth.jwt() ->> 'email', ''))
-  );
+  select true;
 $$;
 
 grant execute on function public.is_menu_admin() to anon, authenticated;
 
 drop policy if exists "Admins can read their admin grant" on public.app_admins;
-create policy "Admins can read their admin grant"
+drop policy if exists "Admins can bind their user id" on public.app_admins;
+drop policy if exists "Public can read admin marker" on public.app_admins;
+create policy "Public can read admin marker"
 on public.app_admins
 for select
-to authenticated
-using (
-  user_id = auth.uid()
-  or lower(email) = lower(coalesce(auth.jwt() ->> 'email', ''))
-);
-
-drop policy if exists "Admins can bind their user id" on public.app_admins;
-create policy "Admins can bind their user id"
-on public.app_admins
-for update
-to authenticated
-using (
-  user_id = auth.uid()
-  or lower(email) = lower(coalesce(auth.jwt() ->> 'email', ''))
-)
-with check (
-  user_id = auth.uid()
-  and lower(email) = lower(coalesce(auth.jwt() ->> 'email', ''))
-);
+to anon, authenticated
+using (true);
 
 drop policy if exists "Public can read visible menu products" on public.menu_products;
-create policy "Public can read visible menu products"
+drop policy if exists "Public can read all menu products" on public.menu_products;
+create policy "Public can read all menu products"
 on public.menu_products
 for select
 to anon, authenticated
-using (is_visible = true or public.is_menu_admin());
+using (true);
 
 drop policy if exists "Admins can insert menu products" on public.menu_products;
-create policy "Admins can insert menu products"
+drop policy if exists "Public admin link can insert menu products" on public.menu_products;
+create policy "Public admin link can insert menu products"
 on public.menu_products
 for insert
-to authenticated
-with check (public.is_menu_admin());
+to anon, authenticated
+with check (true);
 
 drop policy if exists "Admins can update menu products" on public.menu_products;
-create policy "Admins can update menu products"
+drop policy if exists "Public admin link can update menu products" on public.menu_products;
+create policy "Public admin link can update menu products"
 on public.menu_products
 for update
-to authenticated
-using (public.is_menu_admin())
-with check (public.is_menu_admin());
+to anon, authenticated
+using (true)
+with check (true);
 
 drop policy if exists "Admins can delete menu products" on public.menu_products;
-create policy "Admins can delete menu products"
+drop policy if exists "Public admin link can delete menu products" on public.menu_products;
+create policy "Public admin link can delete menu products"
 on public.menu_products
 for delete
-to authenticated
-using (public.is_menu_admin());
+to anon, authenticated
+using (true);
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
@@ -144,26 +133,29 @@ to anon, authenticated
 using (bucket_id = 'product-images');
 
 drop policy if exists "Admins can upload product images" on storage.objects;
-create policy "Admins can upload product images"
+drop policy if exists "Public admin link can upload product images" on storage.objects;
+create policy "Public admin link can upload product images"
 on storage.objects
 for insert
-to authenticated
-with check (bucket_id = 'product-images' and public.is_menu_admin());
+to anon, authenticated
+with check (bucket_id = 'product-images');
 
 drop policy if exists "Admins can update product images" on storage.objects;
-create policy "Admins can update product images"
+drop policy if exists "Public admin link can update product images" on storage.objects;
+create policy "Public admin link can update product images"
 on storage.objects
 for update
-to authenticated
-using (bucket_id = 'product-images' and public.is_menu_admin())
-with check (bucket_id = 'product-images' and public.is_menu_admin());
+to anon, authenticated
+using (bucket_id = 'product-images')
+with check (bucket_id = 'product-images');
 
 drop policy if exists "Admins can delete product images" on storage.objects;
-create policy "Admins can delete product images"
+drop policy if exists "Public admin link can delete product images" on storage.objects;
+create policy "Public admin link can delete product images"
 on storage.objects
 for delete
-to authenticated
-using (bucket_id = 'product-images' and public.is_menu_admin());
+to anon, authenticated
+using (bucket_id = 'product-images');
 
 insert into public.menu_products (
   slug,

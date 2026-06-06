@@ -24,24 +24,19 @@ where email = 'owner@example.com';
 5. Supabase creates the `product-images` Storage bucket through the SQL file.
 6. Product images uploaded from `admin.html` are saved in Supabase Storage and the product row stores the Storage path.
 
-## 2. Supabase Auth
+## 2. Admin Login Removed
 
-1. Go to Supabase Dashboard > Authentication > URL Configuration.
-2. Set Site URL to:
+This version removes Supabase Magic Link login from `admin.html`.
 
-```text
-https://pizzeria-tov.vercel.app
-```
-
-3. Add this Redirect URL:
+Admin URL:
 
 ```text
 https://pizzeria-tov.vercel.app/admin.html
 ```
 
-The admin panel uses Supabase Magic Link login. Only emails listed in `public.app_admins` can manage menu data because Row Level Security policies protect insert, update, delete, and image upload actions.
+Important: anyone who knows this URL can open the admin panel. To make add, update, delete, and image upload work without login, the SQL file allows `anon` write access through RLS policies. This is convenient for very simple use, but it is not secure for a public production site.
 
-Important: `admin.html` is a static page, so the URL can technically be opened by anyone who knows it. The menu data and image operations are protected by Supabase Auth and RLS; unauthorized visitors cannot manage products.
+After deploying these files, open Supabase Dashboard > SQL Editor and run `supabase-menu-schema.sql` again so the no-login RLS policies are applied.
 
 ## 3. Connect The Website
 
@@ -99,10 +94,9 @@ Use this SVG for printed QR cards, table stickers, or Instagram highlights. Rege
 ## 6. Owner Workflow
 
 1. Visit `https://pizzeria-tov.vercel.app/admin.html`.
-2. Enter the authorized owner email.
-3. Open the Supabase Magic Link email.
-4. Add products, update prices, upload photos, change product order, hide/show products, or delete products.
-5. Public visitors only see visible products on `https://pizzeria-tov.vercel.app`.
+2. The admin panel opens directly. No Magic Link email is sent.
+3. Add products, update prices, upload photos, change product order, hide/show products, or delete products.
+4. Public visitors only see visible products on `https://pizzeria-tov.vercel.app`.
 
 ## References
 
