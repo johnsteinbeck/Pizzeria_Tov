@@ -6,7 +6,7 @@ const publicMenuUrl = "https://pizzeria-tov.vercel.app";
 
 // Restaurant contact details: change WhatsApp, phone, map, Instagram, and hours here.
 const businessConfig = {
-  whatsappNumber: "90546860042",
+  whatsappNumber: "0546860042",
   phoneDisplay: "0546 860 04 2",
   phoneHref: "tel:0546860042",
   whatsappMessage: {
@@ -52,7 +52,7 @@ const categories = [
 const menuGroups = {
   chef: {
     eyebrow: { tr: "Napoli Pizzaları", en: "Napoli Pizzas" },
-    title: { tr: "Şefin önerisi", en: "Chef's Selection" },
+    title: { tr: "Klasik Pizzalar", en: "Classic Pizzas" },
   },
   signature: {
     eyebrow: { tr: "En çok tercih edilen", en: "Most Ordered" },
@@ -220,7 +220,7 @@ const uiText = {
       skip: "Yönetim paneline geç",
       eyebrow: "Area riservata",
       title: "Yönetici paneli",
-      copy: "Pizzeria Tov menüsü Supabase veritabanından yönetilir. Ürün ekleyin, fiyatları güncelleyin, görsel yükleyin, gizleyin ya da silin.",
+      copy: "Pizzeria Tov menüsü. Ürün ekleyin, fiyatları güncelleyin, görsel yükleyin, gizleyin ya da silin.",
       authTitle: "Yönetici girişi kaldırıldı",
       authCopy: "Admin linkini bilen kişi paneli doğrudan açabilir.",
       emailLabel: "Yönetici e-postası",
@@ -235,7 +235,7 @@ const uiText = {
       categoryNapoli: "Napoli Pizzaları",
       categoryDrinks: "İçecekler",
       groupLabel: "Menü başlığı",
-      groupChef: "Şefin önerisi",
+      groupChef: "Klasik Pizzalar",
       groupSignature: "İmza Pizzalar",
       ingredientsLabel: "İçerikler",
       photoFileLabel: "Fotoğraf dosyası",
@@ -306,7 +306,7 @@ const uiText = {
       skip: "Skip to admin panel",
       eyebrow: "Area riservata",
       title: "Admin panel",
-      copy: "Pizzeria Tov's menu is managed from the Supabase database. Add products, update prices, upload images, hide, show, or delete items.",
+      copy: "Pizzeria Tov's menu. Add products, update prices, upload images, hide, show, or delete items.",
       authTitle: "Admin sign-in removed",
       authCopy: "Anyone with the admin link can open this panel directly.",
       emailLabel: "Admin email",
@@ -321,7 +321,7 @@ const uiText = {
       categoryNapoli: "Napoli Pizzas",
       categoryDrinks: "Drinks",
       groupLabel: "Menu heading",
-      groupChef: "Chef's Selection",
+      groupChef: "Classic Pizzas",
       groupSignature: "Signature Pizzas",
       ingredientsLabel: "Ingredients",
       photoFileLabel: "Photo file",
