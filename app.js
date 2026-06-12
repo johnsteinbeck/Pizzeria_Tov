@@ -10,8 +10,8 @@ const businessConfig = {
   phoneDisplay: "05468600423 ",
   phoneHref: "tel:05468600423 ",
   whatsappMessage: {
-    tr: "Merhaba, Pizzeria Tov için sipariş vermek istiyorum.",
-    en: "Hello, I would like to order from Pizzeria Tov.",
+    tr: "Merhabalar, pizza hamuru ayırtmak istiyorum.",
+    en: "Hello, I would like to reserve pizza dough.",
   },
   mapUrl:
     "https://www.google.com/maps/place/Pizzeria+TOV/@37.9383882,40.1316048,686m/data=!3m2!1e3!4b1!4m6!3m5!1s0x40751f007b429305:0xc22fae67584a3097!8m2!3d37.9383882!4d40.1316048!16s%2Fg%2F11y6p2z61x!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDYwMS4wIKXMDSoASAFQAw%3D%3D",
@@ -289,6 +289,7 @@ const uiText = {
     visit: {
       title: "İletişim & Konum",
       phoneLabel: "Telefon",
+      reservationNote: "Pizza hamurlarımız sınırlı sayıda olduğundan, gelmeden önce rezervasyon yapmanız önerilir.",
       hoursLabel: "Çalışma saatleri",
       whatsapp: "WhatsApp",
       maps: "Konum",
@@ -375,6 +376,7 @@ const uiText = {
     visit: {
       title: "Contact & Location",
       phoneLabel: "Phone",
+      reservationNote: "Because our pizza dough is prepared in limited quantities, we recommend making a reservation before visiting.",
       hoursLabel: "Opening hours",
       whatsapp: "WhatsApp",
       maps: "Location",
