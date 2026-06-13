@@ -13,8 +13,8 @@ create table if not exists public.app_admins (
 create table if not exists public.menu_products (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
-  category text not null check (category in ('napoli', 'drinks')),
-  menu_group text not null check (menu_group in ('Classic', 'signature', 'drinks')),
+  category text not null check (category in ('napoli', 'desserts', 'drinks')),
+  menu_group text not null check (menu_group in ('Classic', 'signature', 'desserts', 'drinks')),
   name_tr text not null,
   name_en text,
   ingredients_tr text[] not null default '{}',
@@ -52,6 +52,20 @@ on conflict (email) do nothing;
 
 alter table public.app_admins enable row level security;
 alter table public.menu_products enable row level security;
+
+alter table public.menu_products
+drop constraint if exists menu_products_category_check;
+
+alter table public.menu_products
+add constraint menu_products_category_check
+check (category in ('napoli', 'desserts', 'drinks'));
+
+alter table public.menu_products
+drop constraint if exists menu_products_menu_group_check;
+
+alter table public.menu_products
+add constraint menu_products_menu_group_check
+check (menu_group in ('Classic', 'signature', 'desserts', 'drinks'));
 
 -- No-login admin mode:
 -- The static admin.html page does not use Supabase Auth.

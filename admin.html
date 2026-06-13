@@ -77,6 +77,7 @@
                     <span data-i18n="admin.categoryLabel">Kategori</span>
                     <select id="newPizzaCategory">
                       <option value="napoli" data-i18n="admin.categoryNapoli">Napoli Pizzaları</option>
+                      <option value="desserts" data-i18n="admin.categoryDesserts">Tatlılar</option>
                       <option value="drinks" data-i18n="admin.categoryDrinks">İçecekler</option>
                     </select>
                   </label>
@@ -118,6 +119,7 @@
                     <span data-i18n="admin.categoryLabel">Kategori</span>
                     <select id="organizeCategorySelect">
                       <option value="napoli" data-i18n="admin.categoryNapoli">Napoli Pizzaları</option>
+                      <option value="desserts" data-i18n="admin.categoryDesserts">Tatlılar</option>
                       <option value="drinks" data-i18n="admin.categoryDrinks">İçecekler</option>
                     </select>
                   </label>
@@ -155,6 +157,25 @@
                 </label>
 
                 <button class="button button-secondary" type="submit" data-i18n="admin.priceButton">Fiyatı Güncelle</button>
+              </form>
+
+              <form class="admin-card" id="ingredientsUpdateForm">
+                <div class="admin-card-heading">
+                  <span data-i18n="admin.ingredientsUpdateKicker">Ingredienti</span>
+                  <h3 data-i18n="admin.ingredientsUpdateTitle">Ürün İçerik Güncelle</h3>
+                </div>
+
+                <label>
+                  <span data-i18n="admin.productLabel">Ürün seç</span>
+                  <select id="ingredientsItemSelect"></select>
+                </label>
+
+                <label>
+                  <span data-i18n="admin.ingredientsLabel">İçerikler</span>
+                  <textarea id="updatedIngredients" rows="5" placeholder="San Marzano domates&#10;Fesleğen&#10;Parmesan" required></textarea>
+                </label>
+
+                <button class="button button-secondary" type="submit" data-i18n="admin.ingredientsUpdateButton">İçeriği Güncelle</button>
               </form>
 
               <form class="admin-card" id="photoUpdateForm">

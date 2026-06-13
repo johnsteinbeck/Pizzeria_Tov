@@ -48,6 +48,7 @@ const supabaseClient =
 
 const categories = [
   { id: "napoli", label: { tr: "Napoli Pizzaları", en: "Napoli Pizzas" } },
+  { id: "desserts", label: { tr: "Tatlılar", en: "Desserts" } },
   { id: "drinks", label: { tr: "İçecekler", en: "Drinks" } },
 ];
 
@@ -64,9 +65,13 @@ const menuGroups = {
     eyebrow: { tr: "Bibite", en: "Bibite" },
     title: { tr: "İçecekler", en: "Drinks" },
   },
+  desserts: {
+    eyebrow: { tr: "Dolci", en: "Dolci" },
+    title: { tr: "Tatlılar", en: "Desserts" },
+  },
 };
 
-const groupOrderByCategory = { napoli: ["chef", "signature"], drinks: ["drinks"] };
+const groupOrderByCategory = { napoli: ["chef", "signature"], desserts: ["desserts"], drinks: ["drinks"] };
 
 // Preview-only fallback. Production products, prices, visibility, and image paths live in Supabase.
 const baseMenuItems = [
@@ -235,11 +240,15 @@ const uiText = {
       priceLabel: "Fiyat",
       categoryLabel: "Kategori",
       categoryNapoli: "Napoli Pizzaları",
+      categoryDesserts: "Tatlılar",
       categoryDrinks: "İçecekler",
       groupLabel: "Menü başlığı",
       groupChef: "Klasik Pizzalar",
       groupSignature: "İmza Pizzalar",
       ingredientsLabel: "İçerikler",
+      ingredientsUpdateKicker: "Ingredienti",
+      ingredientsUpdateTitle: "Ürün İçerik Güncelle",
+      ingredientsUpdateButton: "İçeriği Güncelle",
       photoFileLabel: "Fotoğraf dosyası",
       addButton: "Ürünü Ekle",
       organizeKicker: "Ordine",
@@ -275,6 +284,7 @@ const uiText = {
       ready: "Yönetim paneli hazır. Giriş kontrolü kaldırıldı.",
       added: "Yeni ürün Supabase menüsüne eklendi.",
       priceUpdated: "Fiyat güncellendi.",
+      ingredientsUpdated: "Ürün içeriği güncellendi.",
       photoUpdated: "Fotoğraf güncellendi.",
       organized: "Menü sırası ve başlığı güncellendi.",
       visibilityUpdated: "Ürün görünürlüğü güncellendi.",
@@ -289,7 +299,7 @@ const uiText = {
     visit: {
       title: "İletişim & Konum",
       phoneLabel: "Telefon",
-      reservationNote: "Pizza hamurlarımız sınırlı sayıda olduğundan, gelmeden önce rezervasyon yapmanız önerilir.",
+      reservationNote: "Pizza hamurlarımız sınırlı sayıda olduğundan, gelmeden önce hamur rezervasyonu yapmanız önerilir.",
       hoursLabel: "Çalışma saatleri",
       whatsapp: "WhatsApp",
       maps: "Konum",
@@ -322,11 +332,15 @@ const uiText = {
       priceLabel: "Price",
       categoryLabel: "Category",
       categoryNapoli: "Napoli Pizzas",
+      categoryDesserts: "Desserts",
       categoryDrinks: "Drinks",
       groupLabel: "Menu heading",
       groupChef: "Classic Pizzas",
       groupSignature: "Signature Pizzas",
       ingredientsLabel: "Ingredients",
+      ingredientsUpdateKicker: "Ingredienti",
+      ingredientsUpdateTitle: "Update Product Ingredients",
+      ingredientsUpdateButton: "Update Ingredients",
       photoFileLabel: "Photo file",
       addButton: "Add Product",
       organizeKicker: "Ordine",
@@ -362,6 +376,7 @@ const uiText = {
       ready: "Admin panel is ready. Sign-in checks are removed.",
       added: "New product added to the Supabase menu.",
       priceUpdated: "Price updated.",
+      ingredientsUpdated: "Product ingredients updated.",
       photoUpdated: "Photo updated.",
       organized: "Menu order and heading updated.",
       visibilityUpdated: "Product visibility updated.",
@@ -376,7 +391,7 @@ const uiText = {
     visit: {
       title: "Contact & Location",
       phoneLabel: "Phone",
-      reservationNote: "Because our pizza dough is prepared in limited quantities, we recommend making a reservation before visiting.",
+      reservationNote: "Because our pizza dough is prepared in limited quantities, we recommend reserving dough before visiting.",
       hoursLabel: "Opening hours",
       whatsapp: "WhatsApp",
       maps: "Location",
@@ -524,12 +539,14 @@ function bindAdminPanel() {
   const addForm = document.getElementById("addPizzaForm");
   const organizeForm = document.getElementById("organizeForm");
   const priceForm = document.getElementById("priceUpdateForm");
+  const ingredientsForm = document.getElementById("ingredientsUpdateForm");
   const photoForm = document.getElementById("photoUpdateForm");
   const visibilityForm = document.getElementById("visibilityForm");
   const deleteForm = document.getElementById("deletePizzaForm");
 
   document.getElementById("newPizzaCategory")?.addEventListener("change", syncNewProductControls);
   document.getElementById("priceItemSelect")?.addEventListener("change", syncSelectedPrice);
+  document.getElementById("ingredientsItemSelect")?.addEventListener("change", syncSelectedIngredients);
   document.getElementById("organizeItemSelect")?.addEventListener("change", syncOrganizeControls);
   document.getElementById("organizeCategorySelect")?.addEventListener("change", syncOrganizeGroupState);
   document.getElementById("visibilityItemSelect")?.addEventListener("change", syncVisibilityToggle);
@@ -541,7 +558,7 @@ function bindAdminPanel() {
     const name = document.getElementById("newPizzaName")?.value.trim() || "";
     const price = document.getElementById("newPizzaPrice")?.value.trim() || "";
     const category = document.getElementById("newPizzaCategory")?.value || "napoli";
-    const group = category === "drinks" ? "drinks" : document.getElementById("newPizzaGroup")?.value || "signature";
+    const group = getDefaultGroupForCategory(category, document.getElementById("newPizzaGroup")?.value || "signature");
     const ingredients = splitIngredients(document.getElementById("newPizzaIngredients")?.value || "");
     const file = document.getElementById("newPizzaFile")?.files?.[0] || null;
     if (!name || !price || !ingredients.length) return;
@@ -561,7 +578,7 @@ function bindAdminPanel() {
         ingredients_en: ingredients,
         price_text_tr: price,
         price_text_en: price,
-        visual: category === "drinks" ? "drink" : "tomato",
+        visual: getDefaultVisualForCategory(category),
         image_path: imagePath,
         sort_order: nextSort,
         is_visible: true,
@@ -586,7 +603,7 @@ function bindAdminPanel() {
     const selected = findMenuItem(document.getElementById("organizeItemSelect")?.value);
     if (!selected) return;
     const category = document.getElementById("organizeCategorySelect")?.value || selected.category;
-    const group = category === "drinks" ? "drinks" : document.getElementById("organizeGroupSelect")?.value || selected.group;
+    const group = getDefaultGroupForCategory(category, document.getElementById("organizeGroupSelect")?.value || selected.group);
     const sortOrder = Number(document.getElementById("sortOrderInput")?.value || selected.sortOrder || 0);
 
     try {
@@ -623,6 +640,31 @@ function bindAdminPanel() {
       if (error) throw error;
       await reloadAdminMenu();
       showAdminStatus("priceUpdated");
+    } catch (error) {
+      console.error(error);
+      showAdminStatus("saveError");
+    } finally {
+      setAdminBusy(false);
+    }
+  });
+
+  ingredientsForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!requireAdminReady()) return;
+
+    const selected = findMenuItem(document.getElementById("ingredientsItemSelect")?.value);
+    const updatedIngredients = splitIngredients(document.getElementById("updatedIngredients")?.value || "");
+    if (!selected || !updatedIngredients.length) return;
+
+    try {
+      setAdminBusy(true);
+      const { error } = await supabaseClient
+        .from("menu_products")
+        .update({ ingredients_tr: updatedIngredients, ingredients_en: updatedIngredients })
+        .eq("id", selected.id);
+      if (error) throw error;
+      await reloadAdminMenu();
+      showAdminStatus("ingredientsUpdated");
     } catch (error) {
       console.error(error);
       showAdminStatus("saveError");
@@ -740,6 +782,7 @@ function setAdminBusy(isBusy) {
 function renderAdminSelectors() {
   const selectors = [
     "priceItemSelect",
+    "ingredientsItemSelect",
     "photoItemSelect",
     "deleteItemSelect",
     "organizeItemSelect",
@@ -756,6 +799,7 @@ function renderAdminSelectors() {
     if (currentValue && findMenuItem(currentValue)) select.value = currentValue;
   });
   syncSelectedPrice();
+  syncSelectedIngredients();
   syncOrganizeControls();
   syncVisibilityToggle();
 }
@@ -763,13 +807,20 @@ function renderAdminSelectors() {
 function syncNewProductControls() {
   const categorySelect = document.getElementById("newPizzaCategory");
   const groupSelect = document.getElementById("newPizzaGroup");
-  if (groupSelect) groupSelect.disabled = categorySelect?.value === "drinks";
+  if (groupSelect) groupSelect.disabled = categorySelect?.value === "drinks" || categorySelect?.value === "desserts";
 }
 
 function syncSelectedPrice() {
   const selected = findMenuItem(document.getElementById("priceItemSelect")?.value);
   const input = document.getElementById("updatedPrice");
   if (input) input.value = selected ? localize(selected.price) : "";
+}
+
+function syncSelectedIngredients() {
+  const selected = findMenuItem(document.getElementById("ingredientsItemSelect")?.value);
+  const textarea = document.getElementById("updatedIngredients");
+  const ingredients = selected ? localize(selected.ingredients) : [];
+  if (textarea) textarea.value = Array.isArray(ingredients) ? ingredients.join("\n") : ingredients;
 }
 
 function syncOrganizeControls() {
@@ -788,13 +839,25 @@ function syncOrganizeControls() {
 function syncOrganizeGroupState() {
   const categorySelect = document.getElementById("organizeCategorySelect");
   const groupSelect = document.getElementById("organizeGroupSelect");
-  if (groupSelect) groupSelect.disabled = categorySelect?.value === "drinks";
+  if (groupSelect) groupSelect.disabled = categorySelect?.value === "drinks" || categorySelect?.value === "desserts";
 }
 
 function syncVisibilityToggle() {
   const selected = findMenuItem(document.getElementById("visibilityItemSelect")?.value);
   const toggle = document.getElementById("visibilityToggle");
   if (toggle) toggle.checked = selected ? selected.isVisible : false;
+}
+
+function getDefaultGroupForCategory(category, selectedGroup) {
+  if (category === "drinks") return "drinks";
+  if (category === "desserts") return "desserts";
+  return selectedGroup || "signature";
+}
+
+function getDefaultVisualForCategory(category) {
+  if (category === "drinks") return "drink";
+  if (category === "desserts") return "dessert";
+  return "tomato";
 }
 
 async function loadMenuItems({ includeHidden }) {
@@ -820,9 +883,9 @@ function normalizeProductRow(row) {
     id: row.id,
     slug: row.slug,
     category: row.category || "napoli",
-    group: row.menu_group || (row.category === "drinks" ? "drinks" : "signature"),
+    group: row.menu_group || getDefaultGroupForCategory(row.category || "napoli", "signature"),
     price: { tr: row.price_text_tr || "", en: row.price_text_en || row.price_text_tr || "" },
-    visual: row.visual || (row.category === "drinks" ? "drink" : "tomato"),
+    visual: row.visual || getDefaultVisualForCategory(row.category || "napoli"),
     name: { tr: row.name_tr || "", en: row.name_en || row.name_tr || "" },
     ingredients: { tr: trIngredients, en: enIngredients },
     image: resolveProductImage(row.image_path || ""),
