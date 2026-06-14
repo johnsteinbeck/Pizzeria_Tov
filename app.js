@@ -71,7 +71,7 @@ const menuGroups = {
   },
 };
 
-const groupOrderByCategory = { napoli: ["chef", "signature"], desserts: ["desserts"], drinks: ["drinks"] };
+const groupOrderByCategory = { napoli: ["Classic", "signature"], desserts: ["desserts"], drinks: ["drinks"] };
 
 // Preview-only fallback. Production products, prices, visibility, and image paths live in Supabase.
 const baseMenuItems = [
