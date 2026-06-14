@@ -831,7 +831,7 @@ function syncOrganizeControls() {
 
   if (!selected) return;
   if (categorySelect) categorySelect.value = selected.category;
-  if (groupSelect) groupSelect.value = selected.group === "drinks" ? "chef" : selected.group;
+  if (groupSelect) groupSelect.value = selected.group === "drinks" ? "Classic" : selected.group;
   if (sortInput) sortInput.value = selected.sortOrder || 0;
   syncOrganizeGroupState();
 }
